@@ -1,0 +1,17 @@
+services:
+  cuda-dev:
+    build: .
+    image: siddharthmmani/learn-cuda:2.13.0-cu130
+    container_name: learn-cuda-dev
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+    tty: true
+    stdin_open: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
