@@ -6,6 +6,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     cmake \
+    curl \
     git \
     wget \
     vim \
@@ -16,6 +17,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3.12-venv \
     python3-pip \
     && rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get install -y --no-install-recommends nodejs && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN npm install -g @anthropic-ai/claude-code
 
 RUN sed -i \
     -e 's/#\?PermitRootLogin.*/PermitRootLogin yes/' \
@@ -36,6 +43,8 @@ RUN python3 -m pip install --no-cache-dir --break-system-packages numpy
 
 COPY start.sh /usr/local/bin/start.sh
 RUN chmod +x /usr/local/bin/start.sh
+
+RUN echo 'cd /workspace 2>/dev/null || true' >> /root/.bashrc
 
 WORKDIR /workspace
 
