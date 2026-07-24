@@ -1,3 +1,34 @@
 ## learn-cuda
 
 This repo will be used to document my first pass through learning CUDA. I will try and keep all code as well-documented as possible for the sake of others (but mostly myself :))
+
+## Dev environment
+
+`Dockerfile` / `docker-compose.yml` set up a CUDA 13.0 + Python 3.12 + PyTorch 2.13.0 (`+cu130`) dev container. The image is published to Docker Hub as `siddharthmmani/learn-cuda:2.13.0-cu130` (linux/amd64).
+
+### Local (Apple Silicon / any host)
+
+```
+docker compose build   # builds from the Dockerfile
+docker compose up -d
+docker compose exec cuda-dev bash
+```
+
+No GPU passthrough on macOS — this is fine for compiling/checking code, not for running kernels.
+
+### Remote GPU workspace (x86_64 + NVIDIA GPU)
+
+Before pulling, check the remote host meets both prerequisites — neither is baked into the image, since both are host-side:
+
+1. **NVIDIA driver** supports CUDA 13.0 (Linux driver ≳ 580.x). Check with `nvidia-smi` — if it fails or reports an old driver, `torch.cuda.is_available()` / kernel launches will fail with a "CUDA driver version is insufficient" error.
+2. **NVIDIA Container Toolkit** is installed and Docker is configured with the `nvidia` runtime, otherwise the container starts but no GPU is visible to it.
+
+Once both check out:
+
+```
+docker compose pull    # fetches siddharthmmani/learn-cuda:2.13.0-cu130 instead of building
+docker compose up -d
+docker compose exec cuda-dev python3 -c "import torch; print(torch.cuda.is_available())"
+```
+
+Should print `True`.
