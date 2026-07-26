@@ -98,4 +98,14 @@ int main() {
     printf("Total CPU time: %.3f\n", total_time_cpu);
     printf("Total GPU time: %.3f\n", total_time_gpu);
     printf("CPU -> GPU speedup: %.3fx\n", total_time_gpu / total_time_cpu);
+
+    // Release host and device memory
+    free(h_a);
+    free(h_b);
+    free(h_c_cpu);
+    free(h_c_gpu);
+
+    cudaFree(d_a);
+    cudaFree(d_b);
+    cudaFree(d_c);
 }
