@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gdb \
     ninja-build \
     openssh-server \
+    cuda-nsight-systems-13-0 \
     python3.12 \
     python3.12-venv \
     python3-pip \
