@@ -1,0 +1,4 @@
+# Nsight Systems reports may capture environment variables and credentials.
+*.nsys-rep
+*.qdstrm
+*.sqlite

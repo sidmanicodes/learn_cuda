@@ -4,7 +4,7 @@
 #include <nvtx3/nvToolsExt.h>
 #include <iostream>
 
-#define BLOCK_SIZE 256
+#define BLOCK_SIZE 16
 #define N 1024
 
 __global__ void matMulKernel(float *A, float *B, float *C, int n) {
